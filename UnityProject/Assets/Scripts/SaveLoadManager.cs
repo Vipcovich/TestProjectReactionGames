@@ -110,12 +110,6 @@ public class SaveLoadManager : SingletonMonoBehaviourDontDestroy<SaveLoadManager
 
         Dictionary<string, SaveLoadObject> loadObjects = saveRecord.saveLoadObjects.ToDictionary(obj => obj.Path);
 
-        string str = string.Format("sceneObjects.Keys:\n{0}\n\nloadObjects.Keys:\n{1}",
-            string.Join("\n", sceneObjects.Keys.ToList().ToArray()),
-            string.Join("\n", loadObjects.Keys.ToList().ToArray()));
-
-        Debug.Log(str);
-
         string[] loadKeys = loadObjects.Keys.ToArray();
         for (int i = 0; i < loadKeys.Length; i++)
         {
@@ -128,5 +122,24 @@ public class SaveLoadManager : SingletonMonoBehaviourDontDestroy<SaveLoadManager
         }
 
         sceneObjects.Values.ToList().ForEach(obj => Destroy(obj.gameObject));
+
+        string bulletKepeerType = typeof(Bullet.SaveBullet).Name;
+        List<SaveLoadObject> bulletDataList = saveRecord.saveLoadObjects.Where(obj => obj.KeeperType == bulletKepeerType).ToList();
+
+        if (bulletDataList.Count > 0)
+        {
+            if (ObjectFactory.Instance)
+            {
+                foreach (SaveLoadObject data in bulletDataList)
+                {
+                    Bullet bullet = ObjectFactory.Instance.Create<Bullet>();
+                    bullet.Load(data);
+                }
+            }
+            else
+            {
+                Debug.LogError("Can't restore bullets: ObjectFactory.Instance == null!");
+            }
+        }
     }
 }

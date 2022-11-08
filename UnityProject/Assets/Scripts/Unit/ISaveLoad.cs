@@ -14,12 +14,14 @@ public class SaveLoadObject
 {
     public string Path;
     public string Data;
+    public string KeeperType;
 
     public static SaveLoadObject Save<TComp, TKeeper>(TComp comp, TKeeper keeper) where TComp : Component
     {
         SaveLoadObject obj = new SaveLoadObject();
         obj.Path = comp.GetPath();
         obj.Data = JsonUtility.ToJson(keeper);
+        obj.KeeperType = keeper.GetType().Name;
         return obj;
     }
 
