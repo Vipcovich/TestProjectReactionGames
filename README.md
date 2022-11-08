@@ -1,1 +1,6 @@
-# TestProjectReactionGames
+# Test Project for ReactionGames
+
+Это тестовый проект(прототип) для Reaction Games. Это было выполнено, как часть собеседования.
+Полное задание можно найти в тестовом файле Тестовое_задание_Reaction_Games_уровень_middle.docx
+
+Этот прототип был сделан в бесплатной версии Unity 2020.3.27f1
