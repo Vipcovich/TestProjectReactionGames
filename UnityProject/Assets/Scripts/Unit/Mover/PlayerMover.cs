@@ -11,6 +11,8 @@ public class PlayerMover : MonoBehaviour
 
     private Rigidbody rigidbody;
 
+    private bool inGameplay => GameManager.Instance?.State == GameManager.GameState.Gameplay;
+
     private void Awake()
     {
         owner = GetComponentInParent<PlayerUnit>();
@@ -48,6 +50,11 @@ public class PlayerMover : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!enabled || !inGameplay)
+        {
+            return;
+        }
+
         Vector3 dir = Vector3.zero;
 
         if (moveDirsNow.ContainsKey(MoveDir.Forward))

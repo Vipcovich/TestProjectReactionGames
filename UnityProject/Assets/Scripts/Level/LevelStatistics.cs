@@ -18,14 +18,41 @@ public partial class LevelStatistics : MonoBehaviour
 
     private void Awake()
     {
+        GameManager.OnChangeGameState += OnChangeGameState;
+        if (GameManager.Instance)
+        {
+            OnChangeGameState(GameManager.Instance.State);
+        }
+    }
+
+    private void OnChangeGameState(GameManager.GameState gameState)
+    {
+        if (gameState == GameManager.GameState.Gameplay)
+        {
+            Subscribe();
+        }
+        else 
+        {
+            Unsubscribe();
+        }
+    }
+
+    private void Subscribe()
+    {
         Unit.OnCreate += OnCreate;
         Unit.OnDead += OnDead;
     }
 
-    private void OnDestroy()
+    private void Unsubscribe()
     {
         Unit.OnCreate -= OnCreate;
         Unit.OnDead -= OnDead;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnChangeGameState -= OnChangeGameState;
+        Unsubscribe();
     }
 
     private void OnCreate(Unit unit)
