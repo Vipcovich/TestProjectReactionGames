@@ -30,6 +30,7 @@ public class ControlKeyboardButton : MonoBehaviour
     };
 
     [SerializeField] private KeyCode nextPlayerKeyCode = KeyCode.Tab;
+    [SerializeField] private KeyCode pauseKeyCode = KeyCode.Escape;
 
     private HashSet<KeyCode> sendPress = new HashSet<KeyCode>();
 
@@ -58,6 +59,11 @@ public class ControlKeyboardButton : MonoBehaviour
         if (Input.GetKeyDown(nextPlayerKeyCode))
         {
             OnChangePlayer.SafetyInvoke();
+        }
+
+        if (Input.GetKeyDown(pauseKeyCode))
+        {
+            GameManager.Instance?.SetPause(GameManager.Instance.State != GameManager.GameState.Pause);
         }
     }
 }

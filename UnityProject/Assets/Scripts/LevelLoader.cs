@@ -12,16 +12,16 @@ public class LevelLoader : SingletonMonoBehaviourDontDestroy<LevelLoader>
     public void LoadLevel(int levelIdx)
     {
         this.LevelIdx = levelIdx;
+        GameManager.Instance?.ClearPause();
         SceneManager.LoadScene(levelIdx, LoadSceneMode.Single);
         GameManager.Instance?.SetState(GameManager.GameState.Gameplay);
-        Time.timeScale = 1f;
     }
 
     public void LoadMenu()
     {
+        GameManager.Instance?.ClearPause();
         SceneManager.LoadScene(menuLevelIdx, LoadSceneMode.Single);
         GameManager.Instance?.SetState(GameManager.GameState.Menu);
-        Time.timeScale = 1f;
     }
 
     public void RepeatLevel()

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : SingletonMonoBehaviourDontDestroy<GameManager>
@@ -37,17 +38,23 @@ public class GameManager : SingletonMonoBehaviourDontDestroy<GameManager>
         OnChangeGameState.SafetyInvoke(state);
     }
 
-    private void Update()
+    public void SetPause(bool isPause)
     {
-        bool isPause = Mathf.Approximately(Time.timeScale, 0f);
+        Time.timeScale = isPause ? 0f : 1f;
+
         if (isPause && state == GameState.Gameplay)
         {
             SetState(GameState.Pause);
         }
-        else if (!isPause && state == GameState.Pause)
+        else if(!isPause && state == GameState.Pause)
         {
             SetState(PrevState);
         }
+    }
+
+    public void ClearPause()
+    {
+        SetPause(false);
     }
 
     private void OnValidate()

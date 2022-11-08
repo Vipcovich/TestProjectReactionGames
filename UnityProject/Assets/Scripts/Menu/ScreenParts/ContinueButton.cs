@@ -4,6 +4,6 @@ public class ContinueButton : ClickButton
 {
     protected override void OnClick()
     {
-        Time.timeScale = 1f;
+        GameManager.Instance?.SetPause(false);
     }
 }
