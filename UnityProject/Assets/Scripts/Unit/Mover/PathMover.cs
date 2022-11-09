@@ -1,29 +1,40 @@
 ﻿using UnityEngine;
-using System.Linq;
-using System.Collections.Generic;
+using UnityEngine.AI;
+using System.Collections;
 
 public class PathMover : MonoBehaviour
 {
-    [SerializeField] private List<Transform> path = new List<Transform>();
+    [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private Path path;
 
     private GameObject target;
-
-    public List<Transform> Path
-    {
-        get { return path; }
-        set
-        {
-            if (path != value)
-            {
-                path = value;
-                SetTarget(path?.First().gameObject);
-            }
-        }
-    }
+    private Coroutine walkPathCoroutine;
 
     public void SetTarget(GameObject newTarget)
     {
         target = newTarget;
+    }
+
+    private IEnumerator WalkByPath()
+    {
+        bool forward = true;
+        Transform point = null;
+
+        while (true)
+        {
+            if (!path || path.Points.Length == 0 || !agent || target)
+            {
+                yield return null;
+                continue;
+            }
+
+            if (!point || agent.remainingDistance <= 1f)
+            {
+                point = path.GetNextPoint(point, ref forward);
+                agent.destination = point.position;
+            }
+            yield return null;
+        }
     }
 
     private void Update()
@@ -31,6 +42,26 @@ public class PathMover : MonoBehaviour
         if (target)
         {
             transform.LookAt(target.transform);
+            MoveTo(target.transform.position);
+        }
+
+        if (walkPathCoroutine == null)
+        {
+            walkPathCoroutine = StartCoroutine(WalkByPath());
+        }
+    }
+
+    private void MoveTo(Vector3 moveTo)
+    {
+        if (walkPathCoroutine != null)
+        {
+            StopCoroutine(walkPathCoroutine);
+            walkPathCoroutine = null;
+        }
+
+        if (agent)
+        {
+            agent.destination = moveTo;
         }
     }
 }

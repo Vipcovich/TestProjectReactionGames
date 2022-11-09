@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 8191445702057876624}
   - component: {fileID: 5208802623614905161}
   - component: {fileID: 114898417756869495}
-  - component: {fileID: 6421097659054510798}
+  - component: {fileID: 6379098173526118099}
   m_Layer: 6
   m_Name: AIStand
   m_TagString: Untagged
@@ -161,11 +161,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   maxHealth: 10
-  mover: {fileID: 6421097659054510798}
+  mover: {fileID: 6379098173526118099}
   weapon: {fileID: 2891048700991938858}
   detector: {fileID: 8331059486224854894}
   collisionDamage: 50
---- !u!114 &6421097659054510798
+--- !u!114 &6379098173526118099
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,7 +177,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00371e5423a1b4e12a2130d2c83a34f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: []
+  agent: {fileID: 0}
+  path: {fileID: 0}
 --- !u!1001 &1507088289709325438
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -239,7 +240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5430754034537394644, guid: 5f7aa46149d0c499382651d5391944c5, type: 3}
       propertyPath: m_LocalScale.x
-      value: 14
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 5430754034537394644, guid: 5f7aa46149d0c499382651d5391944c5, type: 3}
       propertyPath: m_LocalScale.y
@@ -247,7 +248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5430754034537394644, guid: 5f7aa46149d0c499382651d5391944c5, type: 3}
       propertyPath: m_LocalScale.z
-      value: 14
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 5430754034537394644, guid: 5f7aa46149d0c499382651d5391944c5, type: 3}
       propertyPath: m_LocalPosition.y
