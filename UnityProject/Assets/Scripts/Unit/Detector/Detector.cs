@@ -31,10 +31,7 @@ public class Detector : MonoBehaviour
 
     private void OnDestroyPlayerUnit(PlayerUnit playerUnit)
     {
-        if (targets.Remove(playerUnit))
-        {
-            UpdateTarget();
-        }
+        targets.Remove(playerUnit);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -42,7 +39,6 @@ public class Detector : MonoBehaviour
         if (other.TryGetComponent<PlayerUnit>(out PlayerUnit unit))
         {
             targets.Add(unit);
-            UpdateTarget();
         }
     }
 
@@ -51,20 +47,29 @@ public class Detector : MonoBehaviour
         if (other.TryGetComponent<PlayerUnit>(out PlayerUnit unit))
         {
             targets.Remove(unit);
-            if (Target == unit)
-            {
-                UpdateTarget();
-            }
         }
     }
 
-    private void UpdateTarget()
+    private bool IsVisble(PlayerUnit playerUnit)
+    {
+        RaycastHit hit;
+        bool isVisible = Physics.Raycast(transform.position, playerUnit.transform.position - transform.position, out hit) 
+            && hit.transform.GetComponentInParent<PlayerUnit>() == playerUnit;
+
+        return isVisible;
+    }
+
+    private void FixedUpdate()
     {
         Vector3 pos = transform.position;
         PlayerUnit newTarget = null;
-        if (targets?.Count > 0)
+
+        if (targets.Count > 0)
         {
-            newTarget = targets.OrderBy(unit => (pos - unit.transform.position).sqrMagnitude).First();
+            newTarget = targets
+                .Where(unit => IsVisble(unit))
+                .OrderBy(unit => (pos - unit.transform.position).sqrMagnitude)
+                .FirstOrDefault();
         }
 
         if (target != newTarget)
